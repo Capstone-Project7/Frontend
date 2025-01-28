@@ -1,34 +1,89 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Box, Button, FormControl, FormLabel, Input, Option, Select, Sheet, Typography } from '@mui/joy';
+import { Box, Button, FormControl, FormLabel, Input, Sheet, Typography } from '@mui/joy';
 
 const Register = () => {
     const navigate = useNavigate();
-    // Initialize state for form data
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isButtonDisabled, setIsButtonDisabled] = useState(false);  // Track the button state
+
     const [formData, setFormData] = useState({
-        name: '',
-        mobileNum: '',
+        tailorName: '',
+        tailorMobileNumber: '',
         username: '',
         password: '',
     });
 
-    // Handle input changes
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData(prevState => ({
-            ...prevState,
+        setFormData(prev => ({
+            ...prev,
             [name]: value
         }));
     };
 
-    // Handle form submission
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('Registration attempted with:', formData);
-        
-        // Add registration logic here
-        // After successful registration:
-        navigate('/');
+        setIsSubmitting(true);
+        setIsButtonDisabled(true);  // Disable the button while submitting
+
+        // Mobile number validation
+        if (formData.tailorMobileNumber.length !== 10) {
+            alert('Please enter a valid 10-digit mobile number');
+            setIsSubmitting(false);
+            setIsButtonDisabled(false);  // Re-enable button on invalid mobile number
+            return;
+        }
+
+        try {
+            // First API call (registration)
+            const authResponse = await fetch("http://localhost:8060/api/auth/register", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    username: formData.username,
+                    password: formData.password,
+                    roleId: 2
+                })
+            });
+
+            if (!authResponse.ok) {
+                alert("Registration Failed");
+                throw new Error("Registration Failed");
+            }
+            await authResponse.json();
+
+            // Second API call (tailor details)
+            const tailorResponse = await fetch("http://localhost:8060/api/tailors", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    tailorName: formData.tailorName,
+                    tailorMobileNumber: formData.tailorMobileNumber,
+                    workload: 0
+                })
+            });
+
+            if (!tailorResponse.ok) {
+                alert("Failed to add tailor details");
+                throw new Error("Failed to add tailor details");
+            }
+            await tailorResponse.json();
+
+            // If both calls are successful
+            alert("Registration Successful. Please Login");
+            navigate('/');
+
+        } catch (error) {
+            alert(error.message);
+        } finally {
+            setIsSubmitting(false);
+            setIsButtonDisabled(false);  // Re-enable button after both attempts (either success or failure)
+        }
     };
 
     return (
@@ -63,8 +118,8 @@ const Register = () => {
                         <FormControl sx={{ flex: 1 }}>
                             <FormLabel>Name</FormLabel>
                             <Input
-                                name="name"
-                                value={formData.name}
+                                name="tailorName"
+                                value={formData.tailorName}
                                 onChange={handleChange}
                                 required
                                 placeholder="Enter your name"
@@ -75,12 +130,13 @@ const Register = () => {
                     <FormControl sx={{ mb: 2 }}>
                         <FormLabel>Mobile Number</FormLabel>
                         <Input
-                            type="mobileNum"
-                            name="mobileNum"
-                            value={formData.mobileNum}
+                            type="tel"
+                            name="tailorMobileNumber"
+                            value={formData.tailorMobileNumber}
                             onChange={handleChange}
                             required
                             placeholder="Enter your mobile number"
+                            pattern="\d{10}$"
                         />
                     </FormControl>
 
@@ -108,8 +164,12 @@ const Register = () => {
                     </FormControl>
 
                     <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3 }}>
-                        <Button type="submit" size="lg">
-                            Register
+                        <Button 
+                            type="submit" 
+                            size="lg"
+                            disabled={isSubmitting || isButtonDisabled}
+                        >
+                            {isSubmitting ? 'Registering...' : 'Register'}
                         </Button>
                     </Box>
                 </form>
