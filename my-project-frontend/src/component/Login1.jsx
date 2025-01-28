@@ -9,7 +9,7 @@ const Login1 = () => {
     const [formData, setFormData] = useState({
         username: '',
         password: '',
-        userType: 'ADMIN'
+        userType: 'TAILOR'  // Default userType is Tailor
     });
 
     const [error, setError] = useState('');
@@ -46,6 +46,11 @@ const Login1 = () => {
             const data = await response.json();
             const { username, roleName, token } = data;
 
+            // Check if selected userType matches the role from backend response
+            if ((formData.userType === 'ADMIN' && roleName !== 'ADMIN') || (formData.userType === 'TAILOR' && roleName !== 'TAILOR')) {
+                throw new Error('You selected the wrong role');
+            }
+
             // Store auth data
             sessionStorage.setItem("authToken", token);
             sessionStorage.setItem("username", username);
@@ -53,9 +58,9 @@ const Login1 = () => {
 
             // Handle navigation based on role
             if (roleName === "ADMIN") {
-                navigate('/project-type');
+                navigate('/admin-dashboard');
             } else if (roleName === "TAILOR") {
-                navigate('/tailor-dashboard'); // Assuming you have a tailor dashboard route
+                navigate('/tailor-dashboard');
             }
 
         } catch (error) {
@@ -68,9 +73,13 @@ const Login1 = () => {
         setFormData({
             username: '',
             password: '',
-            userType: 'ADMIN'
+            userType: 'TAILOR'  // Reset default to Tailor
         });
         setError('');
+    };
+
+    const handleRegister = () => {
+        navigate('/register');
     };
 
     return (
@@ -104,11 +113,11 @@ const Login1 = () => {
                         name="userType"
                         value={formData.userType}
                         onChange={handleChange}
-                        defaultValue="Admin"
+                        defaultValue="TAILOR"  // Default selection is Tailor
                         overlay
                         sx={{
                             flexDirection: 'row',
-                            justifyContent: 'center',//to align content
+                            justifyContent: 'center', // to align content
                             gap: 2,
                             [`& .${radioClasses.checked}`]: {
                                 [`& .${radioClasses.action}`]: {
@@ -130,7 +139,7 @@ const Login1 = () => {
                             },
                         }}
                     >
-                        {['Admin', 'Tailor'].map((value) => (
+                        {['ADMIN', 'TAILOR'].map((value) => (
                             <Sheet
                                 key={value}
                                 variant="outlined"
@@ -199,6 +208,18 @@ const Login1 = () => {
                             sx={{ flexGrow: 1, ml: 2 }}
                         >
                             Clear
+                        </Button>
+                    </Box>
+                    <p></p>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                        <Button
+                            type="button"
+                            variant="outlined"
+                            color="primary"
+                            onClick={handleRegister}
+                            sx={{ flexGrow: 2 }}
+                        >
+                            Register as Tailor
                         </Button>
                     </Box>
                 </form>
