@@ -1,0 +1,118 @@
+/* General Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+  }
+  
+  .tailors-container {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    padding: 2rem;
+    gap: 1.5rem;
+  }
+  
+  .left-column, .right-column {
+    width: 100%;
+  }
+  
+  /* Flexbox-based grid for right column (tailor cards) */
+  .right-column {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem; /* Space between items */
+  }
+  
+  /* Tailor Card */
+  .tailor-card {
+    width: calc(25% - 1.5rem); /* 4 items per row */
+    box-sizing: border-box; /* Ensures padding and margin are included in the width */
+    padding: 0.8rem;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s, transform 0.3s;
+  }
+  
+  .tailor-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  }
+  
+  .tailor-card .tailor-info {
+    width: 100%;
+  }
+  
+  .tailor-card .tailor-info .tailor-name {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #2c3e50;
+    margin-bottom: 0.4rem;
+  }
+  
+  .tailor-card .tailor-info .orders-count {
+    font-size: 0.9rem;
+    color: #888;
+    margin-bottom: 0.8rem;
+  }
+  
+  .tailor-card .delete-btn {
+    padding: 0.4rem 0.9rem;
+    background-color: #e74c3c;
+    color: #fff;
+    font-size: 0.9rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .tailor-card .delete-btn:hover {
+    background-color: #c0392b;
+  }
+  
+  .tailor-card .delete-btn:active {
+    transform: scale(0.95);
+  }
+  
+  /* Add Tailor Button at the bottom */
+  .add-tailor-btn {
+    background-color: #4caf50;
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    text-align: center;
+    margin-top: auto; /* Ensures button is at the bottom of the container */
+    align-self: center;
+    transition: background-color 0.3s ease;
+  }
+  
+  .add-tailor-btn:hover {
+    background-color: #45a049;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 1024px) {
+    .tailor-card {
+      width: calc(33.33% - 1.5rem); /* 3 items per row */
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .tailor-card {
+      width: calc(50% - 1.5rem); /* 2 items per row */
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .tailor-card {
+      width: 100%; /* 1 item per row */
+    }
+  }
+  
