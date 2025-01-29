@@ -29,7 +29,7 @@ function App() {
           <Route exact path="/tailor-dashboard" element={<TailorDashboard />} />
           <Route exact path="/admin-dashboard" element={<AdminDashboard />} />
           <Route exact path="/customer-selection" element={<CustomerSelectionPage />} />
-          <Route exact path="/existing-customer-page" element={<ExistingCustomerPage />} />
+          <Route exact path="/existing-customer" element={<ExistingCustomerPage />} />
           <Route exact path="/new-customer" element={<NewCustomerPage />} />
           <Route exact path="/measurements-form" element={<MeasurementForm />} />
           <Route exact path="/orders" element={<OrdersPage />} />
