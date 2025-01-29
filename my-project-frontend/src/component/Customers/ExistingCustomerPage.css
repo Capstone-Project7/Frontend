@@ -1,0 +1,34 @@
+/* Ensuring styles only apply to the ExistingCustomerPage component */
+.existing-customer-page {
+    text-align: center;
+    text-emphasis-color: black;
+  }
+  
+  .existing-customer-page .select {
+    margin-top: 20px;
+    padding: 10px;
+  }
+  
+  .existing-customer-page .action-cards {
+    display: flex;
+    justify-content: space-between; /* Align cards left and right */
+    margin-top: 20px;
+  }
+  
+  .existing-customer-page .card {
+    width: 48%; /* Ensure cards take up equal space */
+    padding: 20px;
+    background-color: #f4f4f4;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .existing-customer-page .card:hover {
+    background-color: #442c2c;
+  }
+  
+  h3 {
+    margin: 0;
+  }

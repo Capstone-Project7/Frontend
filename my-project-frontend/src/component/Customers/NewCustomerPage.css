@@ -1,0 +1,110 @@
+/* Page container */
+.new-customer-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: url('./src/assets/admidashboard-bg.jpg') no-repeat center center fixed; /* Add your background image URL here */
+    background-size: cover; /* Ensure the image covers the full page */
+    padding: 20px;
+  }
+  
+  
+  /* Title */
+  .form-title {
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: #000000; /* Black text */
+  }
+  
+  /* Form field labels */
+  .form-group label {
+    display: block;
+    font-size: 1rem;
+    color: #000000; /* Black text for labels */
+    margin-bottom: 8px;
+  }
+  
+  /* Input and textarea fields */
+  .form-group input,
+  .form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #cccccc; /* Light gray border */
+    border-radius: 8px;
+    font-size: 1rem;
+    background-color: #f5f5f527; /* Light gray background */
+    color: #000000; /* Black text inside input fields */
+    transition: all 0.3s ease;
+  }
+  
+  /* Focus effect on input/textarea fields */
+  .form-group input:focus,
+  .form-group textarea:focus {
+    border-color: #000000; /* Black border on focus */
+    background-color: #ffffff; /* White background on focus */
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.2); /* Subtle shadow on focus */
+    outline: none;
+  }
+  
+  /* Footer buttons */
+  .form-footer {
+    display: flex;
+    gap: 16px;
+    margin-top: 20px;
+    justify-content: space-between;
+    flex-direction: row;
+  }
+  
+  .add-measurements-btn,
+  .submit-btn {
+    flex: 1;
+    padding: 14px 20px;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    margin: 0 8px;
+  }
+  
+  /* Add Measurements Button */
+  .add-measurements-btn {
+    background: #333333; /* Dark gray button */
+    color: #ebe9e9; /* White text */
+  }
+  
+  .add-measurements-btn:hover {
+    background: #000000; /* Black on hover */
+    transform: translateY(-2px);
+  }
+  
+  /* Save Customer Button */
+  .submit-btn {
+    background: #ffffff; /* White button */
+    color: #000000; /* Black text */
+    border: 1px solid #000000; /* Black border */
+  }
+  
+  .submit-btn:hover {
+    background: #000000; /* Black button on hover */
+    color: #ffffff; /* White text on hover */
+    transform: translateY(-2px);
+  }
+  
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .form-footer {
+      flex-direction: column;
+      gap: 10px;
+    }
+  
+    .add-measurements-btn,
+    .submit-btn {
+      margin: 0;
+      width: 100%;
+    }
+  }
