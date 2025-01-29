@@ -1,0 +1,116 @@
+@import "https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css";
+
+.customer-selection-page {
+    padding: 20px;
+    text-align: center;
+    background-image: url('/src/assets/admidashboard-bg.jpg'); /* Same background image */
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: rgb(29, 17, 17);
+    overflow: hidden; /* Prevent scrollbars */
+}
+
+h2 {
+    margin-bottom: 30px;
+    font-size: 2rem; /* Reduced font size for better spacing */
+    color: white;
+    animation: fadeIn 0.5s ease-in-out; /* Shortened duration for fade-in */
+}
+
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 20px;
+    width: 100%;
+    transition: all 0.2s ease-in-out; /* Faster layout adjustment */
+    flex-direction: row; /* Explicitly set row direction */
+}
+
+/* Card Styling */
+.card {
+    background-size: cover;
+    background-position: center;
+    padding: 20px; /* Reduced padding for better proportions */
+    border-radius: 8px;
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.2); /* Soft shadow */
+    text-align: center;
+    text-decoration-thickness: 3;
+    color: white;
+    height: 250px;
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, flex-grow 0.2s ease; /* Faster transitions */
+    flex-grow: 1; /* Default size for all cards */
+}
+
+/* Hover effect for cards */
+.card:hover {
+    transform: scale(1.05); /* Slightly larger scale for emphasis */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3); /* More pronounced shadow */
+    flex-grow: 1.1; /* Subtle expansion on hover */
+}
+
+/* Card Titles */
+.card h3 {
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+}
+
+/* Card Button */
+.card a {
+    padding: 10px 20px;
+    background-color: rgba(49, 130, 206, 0.8);
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 1rem; /* Standard text size */
+    margin-top: 10px;
+    transition: background-color 0.1s ease; /* Faster button hover transition */
+}
+
+.card a:hover {
+    background-color: rgba(43, 108, 176, 0.8);
+}
+
+/* New Customer Card Background Image */
+.card.new-customer {
+    background-image: url('/src/assets/admidashboard-bg.jpg');
+}
+
+/* Existing Customer Card Background Image */
+.card.existing-customer {
+    background-image: url('/src/assets/admidashboard-bg.jpg');
+}
+
+/* Media Query for responsiveness */
+@media (max-width: 768px) {
+    .card-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .card {
+        width: 90%; /* Full width on smaller screens */
+        flex-grow: 1; /* Standard size on mobile */
+    }
+}
+
+/* Fade In Animation for text */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}

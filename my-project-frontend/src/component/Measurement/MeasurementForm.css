@@ -1,0 +1,118 @@
+/* Page container */
+.form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: url('./src/assets/admidashboard-bg.jpg') no-repeat center center fixed; /* Add your background image URL here */
+    background-size: cover; /* Ensure the image covers the full page */
+    padding: 20px;
+  }
+  
+  /* Grid container for form fields */
+  .form-grid {
+    width: 100%;
+    max-width: 900px; /* Adjust the max width to fit your layout */
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 2 columns for left and right halves */
+    gap: 16px;
+    background-color: rgb(255, 255, 255); /* White background with transparency */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Title */
+  .form-title {
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: #000000; /* Black text */
+  }
+  
+  /* Form field labels */
+  .form-group label {
+    display: block;
+    font-size: 1rem;
+    color: #000000; /* Black text for labels */
+    margin-bottom: 8px;
+  }
+  
+  /* Input and textarea fields */
+  .form-group input,
+  .form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #cccccc; /* Light gray border */
+    border-radius: 8px;
+    font-size: 1rem;
+    background-color: #f5f5f527; /* Light gray background */
+    color: #000000; /* Black text inside input fields */
+    transition: all 0.3s ease;
+  }
+  
+  /* Focus effect on input/textarea fields */
+  .form-group input:focus,
+  .form-group textarea:focus {
+    border-color: #000000; /* Black border on focus */
+    background-color: #ffffff; /* White background on focus */
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.2); /* Subtle shadow on focus */
+    outline: none;
+  }
+  
+  /* Footer buttons container */
+  .form-footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  
+  /* Add Measurements Button */
+  .add-measurements-btn,
+  .submit-btn {
+    padding: 14px 20px;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    width: 45%; /* Set width for buttons */
+  }
+  
+  /* Add Measurements Button (left button) */
+  .add-measurements-btn {
+    background: #333333; /* Dark gray button */
+    color: #ebe9e9; /* White text */
+  }
+  
+  .add-measurements-btn:hover {
+    background: #000000; /* Black on hover */
+    transform: translateY(-2px);
+  }
+  
+  /* Save Measurements Button (right button) */
+  .submit-btn {
+    background: #ffffff; /* White button */
+    color: #000000; /* Black text */
+    border: 1px solid #000000; /* Black border */
+  }
+  
+  .submit-btn:hover {
+    background: #000000; /* Black button on hover */
+    color: #ffffff; /* White text on hover */
+    transform: translateY(-2px);
+  }
+  
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .form-grid {
+      grid-template-columns: 1fr; /* Stack the columns on smaller screens */
+    }
+  
+    .add-measurements-btn,
+    .submit-btn {
+      width: 100%; /* Full width buttons */
+    }
+  }
