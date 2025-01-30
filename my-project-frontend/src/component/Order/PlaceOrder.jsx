@@ -1,14 +1,21 @@
-
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './PlaceOrder.css';
+import { useLocation, useNavigate } from "react-router-dom";
+// import 'bootstrap/dist/css/bootstrap.min.css';
+// import './PlaceOrder.css';
+import axios from "axios";
+import { Sheet, FormControl, FormLabel, Input, Button, Stack, Typography, Box, IconButton } from '@mui/joy';
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const PlaceOrder = ({ onSubmit }) => {
+  const location = useLocation();
+  const {customerId} = location.state || {};
+  
   const [formData, setFormData] = useState({
-    customerId: "",
+    customerId: customerId,
     orderDate: "",
-    deliveryDate: "",
+    deliveryDate: "2025-01-20",
     items: [],
     totalPrice: 0,
   });
@@ -16,16 +23,22 @@ const PlaceOrder = ({ onSubmit }) => {
   const [catalogueItems, setCatalogueItems] = useState([]);
   const navigate = useNavigate();
 
-  // Simulate fetching catalogue items (you can replace this with an API call)
   useEffect(() => {
-    const fetchedCatalogueItems = [
-      { id: 1, name: "Shirt", price: 30 },
-      { id: 2, name: "Pants", price: 40 },
-      { id: 3, name: "Suit", price: 150 },
-      { id: 4, name: "Tuxedo", price: 200 },
-    ];
-    setCatalogueItems(fetchedCatalogueItems);
+    const currentDate = new Date();
+    const formattedDate = currentDate.toISOString().split('T')[0];
+    setFormData({ ...formData, orderDate: formattedDate });
+    fetchedCatalogueItems();
   }, []);
+
+  async function fetchedCatalogueItems() {
+    try {
+      const response = await axios.get('http://localhost:8060/catalogue/product-types');
+      setCatalogueItems(response.data);
+    } catch (error) {
+      console.error("Error fetching catalogue items:", error);
+      setCatalogueItems([]);
+    }
+  }
 
   const handleItemChange = (e, index) => {
     const updatedItems = [...formData.items];
@@ -33,39 +46,89 @@ const PlaceOrder = ({ onSubmit }) => {
       ...updatedItems[index],
       quantity: e.target.value,
     };
-    const updatedPrice = calculateTotalPrice(updatedItems);
-    const updatedDate = calculateDeliveryDate(updatedItems);
-    setFormData({ ...formData, items: updatedItems, totalPrice: updatedPrice, deliveryDate: updatedDate });
+    updateFormData(updatedItems);
   };
 
   const handleAddItem = (itemId) => {
-    const item = catalogueItems.find((item) => item.id === itemId);
-    const newItem = {
-      itemId: item.id,
-      name: item.name,
-      price: item.price,
-      quantity: 1,
-    };
-    const updatedItems = [...formData.items, newItem];
-    const updatedPrice = calculateTotalPrice(updatedItems);
-    const updatedDate = calculateDeliveryDate(updatedItems);
+    const item = catalogueItems.find((item) => item.catalogueId === itemId);
+    const existingItemIndex = formData.items.findIndex((orderItem) => orderItem.itemId === itemId);
+
+    if (existingItemIndex >= 0) {
+      const updatedItems = [...formData.items];
+      updatedItems[existingItemIndex].quantity += 1;
+      updateFormData(updatedItems);
+    } else {
+      const newItem = {
+        itemId: item.catalogueId,
+        name: item.productCategory,
+        price: item.productPrice,
+        quantity: 1,
+      };
+      updateFormData([...formData.items, newItem]);
+    }
+  };
+
+  const handleRemoveItem = (itemId) => {
+    const updatedItems = formData.items.filter((item) => item.itemId !== itemId);
+    updateFormData(updatedItems);
+  };
+
+  const handleIncreaseQuantity = (index) => {
+    const updatedItems = [...formData.items];
+    updatedItems[index].quantity += 1;
+    updateFormData(updatedItems);
+  };
+
+  const handleDecreaseQuantity = (index) => {
+    const updatedItems = [...formData.items];
+    if (updatedItems[index].quantity > 1) {
+      updatedItems[index].quantity -= 1;
+      updateFormData(updatedItems);
+    }
+  };
+
+  const updateFormData = (items) => {
+    const updatedPrice = calculateTotalPrice(items);
+    const updatedDate = calculateDeliveryDate(items);
     setFormData({
       ...formData,
-      items: updatedItems,
+      items,
       totalPrice: updatedPrice,
       deliveryDate: updatedDate,
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const orderData = {
       ...formData,
       orderDate: new Date(formData.orderDate),
       deliveryDate: new Date(formData.deliveryDate),
     };
-    onSubmit(orderData);
-    navigate("/admin-dashboard");
+    try {
+      const updateResponse = await axios.post('http://localhost:8081/orders', {
+        deliveryDate: formData.deliveryDate,
+        customerId: formData.customerId
+      });
+      console.log("Order saved successfully:", updateResponse.data);
+      if (updateResponse.data.orderId) {
+        const orderId = updateResponse.data.orderId;
+        formData.items.map(async (item) => {
+          for (let i = 0; i < item.quantity; i++) {
+          const res = await axios.post('http://localhost:8060/api/items', {
+            orderId: orderId,
+            catalogueId: item.itemId,
+            tailorId: 202
+          });
+          console.log("Order item saved successfully:", res.data);
+        }
+        });
+
+      }
+      // navigate("/admin-dashboard");
+    } catch (error) {
+      console.error("Error saving order:", error);
+    }
   };
 
   const calculateTotalPrice = (items) => {
@@ -83,107 +146,143 @@ const PlaceOrder = ({ onSubmit }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="container-fluid">
-      <div className="row">
+    <Sheet 
+      component="form" 
+      onSubmit={handleSubmit}
+      sx={{
+        maxWidth: 1200,
+        mx: 'auto',
+        p: 3,
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 2
+      }}
+    >
+      <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
         {/* Left Column */}
-        <div className="col-md-6 mb-4 left-column">
-          <div className="p-4 border rounded shadow-sm">
-            <h5>Customer and Order Information</h5>
-            <div className="mb-3">
-              <label htmlFor="customerId" className="form-label">Customer ID</label>
-              <input
-                type="text"
-                id="customerId"
-                name="customerId"
+        <Sheet 
+          variant="outlined"
+          sx={{ 
+            flex: 1,
+            minWidth: 300,
+            p: 3,
+            borderRadius: 'sm'
+          }}
+        >
+          <Typography level="h5" sx={{ mb: 2 }}>Customer and Order Information</Typography>
+          
+          <Stack spacing={2}>
+            <FormControl>
+              <FormLabel>Customer ID</FormLabel>
+              <Input
                 value={formData.customerId}
-                onChange={(e) => setFormData({ ...formData, customerId: e.target.value })}
-                className="form-control"
+                readOnly
                 required
               />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="orderDate" className="form-label">Order Date</label>
-              <input
-                type="date"
-                id="orderDate"
-                name="orderDate"
-                value={formData.orderDate}
-                onChange={(e) => setFormData({ ...formData, orderDate: e.target.value })}
-                className="form-control"
-                required
-              />
-            </div>
+            </FormControl>
 
-            {/* List of Order Items */}
+            <FormControl>
+              <FormLabel>Order Date</FormLabel>
+              <Input
+                value={formData.orderDate}
+                readOnly
+                required
+              />
+            </FormControl>
+
             {formData.items.length > 0 && (
-              <div className="mb-3">
-                <label className="form-label">Selected Items</label>
-                {formData.items.map((item, index) => (
-                  <div key={index} className="mb-2">
-                    <span className="me-2">{item.name}</span>
-                    <input
-                      type="number"
-                      value={item.quantity}
-                      onChange={(e) => handleItemChange(e, index)}
-                      min="1"
-                      className="form-control w-25"
-                    />
-                  </div>
-                ))}
-              </div>
+              <Box>
+                <FormLabel sx={{ mb: 1 }}>Selected Items</FormLabel>
+                <Stack spacing={1}>
+                  {formData.items.map((item, index) => (
+                    <Box 
+                      key={index}
+                      sx={{ 
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 1
+                      }}
+                    >
+                      <Typography sx={{ flex: 1 }}>{item.name}</Typography>
+                      <IconButton 
+                        size="sm"
+                        variant="outlined"
+                        onClick={() => handleDecreaseQuantity(index)}
+                      >
+                        <RemoveIcon />
+                      </IconButton>
+                      <Typography>{item.quantity}</Typography>
+                      <IconButton
+                        size="sm"
+                        variant="outlined"
+                        onClick={() => handleIncreaseQuantity(index)}
+                      >
+                        <AddIcon />
+                      </IconButton>
+                      <IconButton
+                        size="sm"
+                        color="danger"
+                        onClick={() => handleRemoveItem(item.itemId)}
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    </Box>
+                  ))}
+                </Stack>
+              </Box>
             )}
-          </div>
-        </div>
+          </Stack>
+        </Sheet>
 
         {/* Right Column */}
-        <div className="col-md-6 mb-4 right-column">
-          <div className="p-4 border rounded shadow-sm">
-            <h5>Select Items & Payment Details</h5>
-            {/* Item Selection */}
-            <div className="mb-3">
-              <label className="form-label">Select Items</label>
-              <div className="d-flex flex-wrap">
-                {catalogueItems.map((item) => (
-                  <div key={item.id} className="p-2">
-                    <button
-                      type="button"
-                      onClick={() => handleAddItem(item.id)}
-                      className="btn btn-outline-primary"
-                    >
-                      {item.name} - ${item.price}
-                    </button>
-                  </div>
+        <Sheet
+          variant="outlined"
+          sx={{ 
+            flex: 1,
+            minWidth: 300,
+            p: 3,
+            borderRadius: 'sm'
+          }}
+        >
+          <Typography level="h5" sx={{ mb: 2 }}>Select Items & Payment Details</Typography>
+          
+          <Stack spacing={2}>
+            <Box>
+              <FormLabel sx={{ mb: 1 }}>Select Items</FormLabel>
+              <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+                {Array.isArray(catalogueItems) && catalogueItems.map((item) => (
+                  <Button
+                    key={item.catalogueId}
+                    variant="outlined"
+                    onClick={() => handleAddItem(item.catalogueId)}
+                  >
+                    {item.productCategory} - ₹{item.productPrice}
+                  </Button>
                 ))}
-              </div>
-            </div>
+              </Box>
+            </Box>
 
-            {/* Payment and Due Date */}
-            <div className="mb-3">
-              <label htmlFor="deliveryDate" className="form-label">Due Date</label>
-              <input
+            <FormControl>
+              <FormLabel>Due Date</FormLabel>
+              <Input
                 type="date"
-                id="deliveryDate"
-                name="deliveryDate"
                 value={formData.deliveryDate}
                 readOnly
-                className="form-control"
               />
-            </div>
+            </FormControl>
 
-            {/* Display Total Price */}
-            <div className="d-flex justify-content-between mb-3">
-              <span>Total Price:</span>
-              <span>${formData.totalPrice}</span>
-            </div>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <Typography>Total Price:</Typography>
+              <Typography>₹{formData.totalPrice}</Typography>
+            </Box>
 
-            {/* Submit Button */}
-            <button type="submit" className="btn btn-success w-100">
+            <Button type="submit" color="success">
               Save Order
-            </button>
-          </div>
-        </div>
-      </div>
-    </form>
+            </Button>
+          </Stack>
+        </Sheet>
+      </Box>
+    </Sheet>
   );
 };
 
