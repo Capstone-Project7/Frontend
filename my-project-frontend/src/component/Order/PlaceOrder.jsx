@@ -15,7 +15,7 @@ const PlaceOrder = ({ onSubmit }) => {
   const [formData, setFormData] = useState({
     customerId: customerId,
     orderDate: "",
-    deliveryDate: "2025-01-20",
+    deliveryDate: new Date().toISOString().split('T')[0],
     items: [],
     totalPrice: 0,
   });
@@ -34,6 +34,7 @@ const PlaceOrder = ({ onSubmit }) => {
     try {
       const response = await axios.get('http://localhost:8060/catalogue/product-types');
       setCatalogueItems(response.data);
+      console.log(response.data);
     } catch (error) {
       console.error("Error fetching catalogue items:", error);
       setCatalogueItems([]);
@@ -49,7 +50,7 @@ const PlaceOrder = ({ onSubmit }) => {
     updateFormData(updatedItems);
   };
 
-  const handleAddItem = (itemId) => {
+  const handleAddItem = (itemId, workload) => {
     const item = catalogueItems.find((item) => item.catalogueId === itemId);
     const existingItemIndex = formData.items.findIndex((orderItem) => orderItem.itemId === itemId);
 
@@ -62,9 +63,11 @@ const PlaceOrder = ({ onSubmit }) => {
         itemId: item.catalogueId,
         name: item.productCategory,
         price: item.productPrice,
+        workload: workload,
         quantity: 1,
       };
-      updateFormData([...formData.items, newItem]);
+      const updatedItems = [...formData.items, newItem].sort((a, b) => b.workload - a.workload);
+      updateFormData(updatedItems);
     }
   };
 
@@ -100,6 +103,7 @@ const PlaceOrder = ({ onSubmit }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(formData);
     const orderData = {
       ...formData,
       orderDate: new Date(formData.orderDate),
@@ -117,12 +121,12 @@ const PlaceOrder = ({ onSubmit }) => {
           for (let i = 0; i < item.quantity; i++) {
           const res = await axios.post('http://localhost:8060/api/items', {
             orderId: orderId,
-            catalogueId: item.itemId,
-            tailorId: 202
+            catalogueId: item.itemId
           });
           console.log("Order item saved successfully:", res.data);
         }
         });
+        navigate("/admin-dashboard");
 
       }
       // navigate("/admin-dashboard");
@@ -136,14 +140,33 @@ const PlaceOrder = ({ onSubmit }) => {
   };
 
   const calculateDeliveryDate = (items) => {
-    const baseDeliveryDays = 5;
-    const extraDaysPerItem = 2;
-    const totalItems = items.reduce((total, item) => total + item.quantity, 0);
-    const totalDays = baseDeliveryDays + extraDaysPerItem * totalItems;
+    const baseDeliveryDays = 2;
+    if(items.length === 0) return new Date().toISOString().split('T')[0];
+    const extraDaysPerItem = items[0].workload + tailors[tailors.length - 1].workload;
+    // const totalItems = items.reduce((total, item) => total + item.quantity, 0);
+    const totalDays = baseDeliveryDays + extraDaysPerItem;
     const deliveryDate = new Date();
     deliveryDate.setDate(deliveryDate.getDate() + totalDays);
     return deliveryDate.toISOString().split("T")[0];
   };
+
+  // http://localhost:8060/api/tailors/workload
+  const [tailors, setTailors] = useState([]);
+
+  useEffect(() => {
+    const fetchTailors = async () => {
+      try {
+        const response = await axios.get('http://localhost:8060/api/tailors/workload');
+        setTailors(response.data);
+        // console.log(response.data[response.data.length - 1]);
+      } catch (error) {
+        console.error("Error fetching tailors:", error);
+      }
+
+    };
+    fetchTailors();
+  }, []);
+  
 
   return (
     <Sheet 
@@ -254,9 +277,9 @@ const PlaceOrder = ({ onSubmit }) => {
                   <Button
                     key={item.catalogueId}
                     variant="outlined"
-                    onClick={() => handleAddItem(item.catalogueId)}
+                    onClick={() => handleAddItem(item.catalogueId, item.productWorkload)}
                   >
-                    {item.productCategory} - ₹{item.productPrice}
+                    {item.productCategory} - ₹{item.productPrice} - {item.productWorkload}
                   </Button>
                 ))}
               </Box>
