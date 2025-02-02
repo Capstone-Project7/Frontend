@@ -89,9 +89,9 @@ const Login1 = () => {
                 justifyContent: 'center',
                 alignItems: 'center',
                 height: '100vh',
-                backgroundImage: 'url(https://as2.ftcdn.net/v2/jpg/02/71/10/27/1000_F_271102743_5cXu0CqlWnWLvajaCpjMeG7Wwbr2ebxa.jpg)',
-                backgroundSize: 'cover',
-                backgroundPosition: 'center'
+                // backgroundImage: 'url(https://as2.ftcdn.net/v2/jpg/02/71/10/27/1000_F_271102743_5cXu0CqlWnWLvajaCpjMeG7Wwbr2ebxa.jpg)',
+                // backgroundSize: 'cover',
+                // backgroundPosition: 'center'
             }}
         >
             <Box

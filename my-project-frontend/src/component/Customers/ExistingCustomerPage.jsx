@@ -94,7 +94,7 @@ const ExistingCustomerPage = () => {
           </Typography>
           
           <Stack spacing={1} mb={3}>
-            <Typography><strong>Name:</strong> {customerData.name}</Typography>
+            <Typography><strong>Name:</strong> {customerData.customerName}</Typography>
             <Typography><strong>ID:</strong> {customerData.customerId}</Typography>
             <Typography><strong>Phone:</strong> {customerData.phoneNumber}</Typography>
             <Typography><strong>Email:</strong> {customerData.email}</Typography>

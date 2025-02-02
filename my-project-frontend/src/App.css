@@ -1,0 +1,10 @@
+body {
+    background-image: url('https://as2.ftcdn.net/v2/jpg/02/71/10/27/1000_F_271102743_5cXu0CqlWnWLvajaCpjMeG7Wwbr2ebxa.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;  /* Optional: keeps the background fixed during scrolling */
+    margin: 0;
+    height: 100vh;
+
+  }
+  

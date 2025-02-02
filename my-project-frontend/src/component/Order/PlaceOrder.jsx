@@ -169,7 +169,8 @@ const PlaceOrder = ({ onSubmit }) => {
         p: 3,
         display: 'flex',
         flexDirection: 'column',
-        gap: 2
+        gap: 2,
+        backgroundColor: 'transparent'
       }}
     >
       <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
