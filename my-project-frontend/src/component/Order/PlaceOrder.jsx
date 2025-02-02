@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-// import 'bootstrap/dist/css/bootstrap.min.css';
-// import './PlaceOrder.css';
 import axios from "axios";
 import { Sheet, FormControl, FormLabel, Input, Button, Stack, Typography, Box, IconButton } from '@mui/joy';
 import AddIcon from '@mui/icons-material/Add';
@@ -127,9 +125,7 @@ const PlaceOrder = ({ onSubmit }) => {
         }
         });
         navigate("/admin-dashboard");
-
       }
-      // navigate("/admin-dashboard");
     } catch (error) {
       console.error("Error saving order:", error);
     }
@@ -143,14 +139,12 @@ const PlaceOrder = ({ onSubmit }) => {
     const baseDeliveryDays = 2;
     if(items.length === 0) return new Date().toISOString().split('T')[0];
     const extraDaysPerItem = items[0].workload + tailors[tailors.length - 1].workload;
-    // const totalItems = items.reduce((total, item) => total + item.quantity, 0);
     const totalDays = baseDeliveryDays + extraDaysPerItem;
     const deliveryDate = new Date();
     deliveryDate.setDate(deliveryDate.getDate() + totalDays);
     return deliveryDate.toISOString().split("T")[0];
   };
 
-  // http://localhost:8060/api/tailors/workload
   const [tailors, setTailors] = useState([]);
 
   useEffect(() => {
@@ -158,15 +152,12 @@ const PlaceOrder = ({ onSubmit }) => {
       try {
         const response = await axios.get('http://localhost:8060/api/tailors/workload');
         setTailors(response.data);
-        // console.log(response.data[response.data.length - 1]);
       } catch (error) {
         console.error("Error fetching tailors:", error);
       }
-
     };
     fetchTailors();
   }, []);
-  
 
   return (
     <Sheet 
@@ -182,72 +173,78 @@ const PlaceOrder = ({ onSubmit }) => {
       }}
     >
       <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
-        {/* Left Column */}
+        {/* Left Column - Customer Info */}
         <Sheet 
           variant="outlined"
           sx={{ 
-            flex: 1,
-            minWidth: 300,
-            p: 3,
+            flex: 0.4,
+            minWidth: 250,
+            p: 2,
             borderRadius: 'sm'
           }}
         >
-          <Typography level="h5" sx={{ mb: 2 }}>Customer and Order Information</Typography>
+          <Typography level="h6" sx={{ mb: 2 }}>Order Information</Typography>
           
-          <Stack spacing={2}>
-            <FormControl>
+          <Stack spacing={1.5}>
+            <FormControl size="sm">
               <FormLabel>Customer ID</FormLabel>
               <Input
                 value={formData.customerId}
                 readOnly
                 required
+                size="sm"
               />
             </FormControl>
 
-            <FormControl>
+            <FormControl size="sm">
               <FormLabel>Order Date</FormLabel>
               <Input
                 value={formData.orderDate}
                 readOnly
                 required
+                size="sm"
               />
             </FormControl>
 
             {formData.items.length > 0 && (
               <Box>
-                <FormLabel sx={{ mb: 1 }}>Selected Items</FormLabel>
-                <Stack spacing={1}>
+                <FormLabel sx={{ mb: 0.5 }}>Selected Items</FormLabel>
+                <Stack spacing={0.5}>
                   {formData.items.map((item, index) => (
                     <Box 
                       key={index}
                       sx={{ 
                         display: 'flex',
                         alignItems: 'center',
-                        gap: 1
+                        gap: 0.5,
+                        backgroundColor: 'background.level1',
+                        p: 0.5,
+                        borderRadius: 'sm'
                       }}
                     >
-                      <Typography sx={{ flex: 1 }}>{item.name}</Typography>
+                      <Typography level="body2" sx={{ flex: 1 }}>{item.name}</Typography>
                       <IconButton 
                         size="sm"
-                        variant="outlined"
+                        variant="plain"
                         onClick={() => handleDecreaseQuantity(index)}
                       >
-                        <RemoveIcon />
+                        <RemoveIcon fontSize="small" />
                       </IconButton>
-                      <Typography>{item.quantity}</Typography>
+                      <Typography level="body2">{item.quantity}</Typography>
                       <IconButton
                         size="sm"
-                        variant="outlined"
+                        variant="plain"
                         onClick={() => handleIncreaseQuantity(index)}
                       >
-                        <AddIcon />
+                        <AddIcon fontSize="small" />
                       </IconButton>
                       <IconButton
                         size="sm"
                         color="danger"
+                        variant="plain"
                         onClick={() => handleRemoveItem(item.itemId)}
                       >
-                        <DeleteIcon />
+                        <DeleteIcon fontSize="small" />
                       </IconButton>
                     </Box>
                   ))}
@@ -257,51 +254,95 @@ const PlaceOrder = ({ onSubmit }) => {
           </Stack>
         </Sheet>
 
-        {/* Right Column */}
+        {/* Right Column - Items & Payment */}
         <Sheet
           variant="outlined"
           sx={{ 
-            flex: 1,
+            flex: 0.6,
             minWidth: 300,
-            p: 3,
+            p: 2,
             borderRadius: 'sm'
           }}
         >
-          <Typography level="h5" sx={{ mb: 2 }}>Select Items & Payment Details</Typography>
+          <Typography level="h6" sx={{ mb: 2 }}>Select Items & Payment</Typography>
           
           <Stack spacing={2}>
             <Box>
-              <FormLabel sx={{ mb: 1 }}>Select Items</FormLabel>
-              <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+              <FormLabel sx={{ mb: 1 }}>Available Items</FormLabel>
+              <Box sx={{ 
+                display: 'grid', 
+                gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))',
+                gap: 1.5 
+              }}>
                 {Array.isArray(catalogueItems) && catalogueItems.map((item) => (
-                  <Button
+                  <Box 
                     key={item.catalogueId}
-                    variant="outlined"
-                    onClick={() => handleAddItem(item.catalogueId, item.productWorkload)}
+                    sx={{
+                      textAlign: 'center',
+                      border: '1px solid',
+                      borderColor: 'divider',
+                      borderRadius: 'sm',
+                      p: 1,
+                      transition: 'transform 0.2s',
+                      '&:hover': {
+                        transform: 'translateY(-2px)',
+                        boxShadow: 1
+                      }
+                    }}
                   >
-                    {item.productCategory} - ₹{item.productPrice} - {item.productWorkload}
-                  </Button>
+                    <Box 
+                      sx={{
+                        height: 100,
+                        backgroundImage: `url(${item.productImageUrl})`,
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                        borderRadius: 'xs',
+                        mb: 0.5
+                      }}
+                    />
+                    <Typography level="body2" fontWeight="md">{item.productCategory}</Typography>
+                    <Typography level="body2" sx={{ color: 'primary.main', mb: 0.5 }}>₹{item.productPrice}</Typography>
+                    <Button
+                      size="sm"
+                      variant="soft"
+                      fullWidth
+                      onClick={() => handleAddItem(item.catalogueId, item.productWorkload)}
+                    >
+                      Add
+                    </Button>
+                  </Box>
                 ))}
               </Box>
             </Box>
 
-            <FormControl>
+            <FormControl size="sm">
               <FormLabel>Due Date</FormLabel>
               <Input
                 type="date"
                 value={formData.deliveryDate}
                 readOnly
+                size="sm"
               />
             </FormControl>
 
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <Typography>Total Price:</Typography>
-              <Typography>₹{formData.totalPrice}</Typography>
-            </Box>
+            <Box sx={{ 
+              display: 'flex', 
+              flexDirection: 'column',
+              gap: 2,
+              mt: 2,
+              pt: 2,
+              borderTop: '1px solid',
+              borderColor: 'divider'
+            }}>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <Typography level="h6">Total Price:</Typography>
+                <Typography level="h6" sx={{ color: 'primary.main' }}>₹{formData.totalPrice}</Typography>
+              </Box>
 
-            <Button type="submit" color="success">
-              Save Order
-            </Button>
+              <Button type="submit" color="success" fullWidth>
+                Place Order
+              </Button>
+            </Box>
           </Stack>
         </Sheet>
       </Box>
