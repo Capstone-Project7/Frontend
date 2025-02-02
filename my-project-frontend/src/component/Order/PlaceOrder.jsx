@@ -183,7 +183,7 @@ const PlaceOrder = ({ onSubmit }) => {
             borderRadius: 'sm'
           }}
         >
-          <Typography level="h6" sx={{ mb: 2 }}>Order Information</Typography>
+          <Typography level="h4" sx={{ mb: 2 }}>Order Information</Typography>
           
           <Stack spacing={1.5}>
             <FormControl size="sm">
@@ -264,7 +264,7 @@ const PlaceOrder = ({ onSubmit }) => {
             borderRadius: 'sm'
           }}
         >
-          <Typography level="h6" sx={{ mb: 2 }}>Select Items & Payment</Typography>
+          <Typography level="h4" sx={{ mb: 2 }}>Select Items </Typography>
           
           <Stack spacing={2}>
             <Box>
@@ -315,8 +315,8 @@ const PlaceOrder = ({ onSubmit }) => {
               </Box>
             </Box>
 
-            <FormControl size="sm">
-              <FormLabel>Due Date</FormLabel>
+            <FormControl size="md">
+              <FormLabel>Estimated Delivery Date</FormLabel>
               <Input
                 type="date"
                 value={formData.deliveryDate}
