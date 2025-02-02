@@ -132,23 +132,23 @@ const TailorDashboard = () => {
   };
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, p: 2, maxWidth: 1200, margin: '0 auto'}}>
-      <Typography level="h2" sx={{ mb: 2, textAlign: 'center' }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4, p: 4, maxWidth: 1600, margin: '0 auto'}}>
+      <Typography level="h1" sx={{ mb: 4, textAlign: 'center', fontSize: '3.5rem' }}>
       🧵Tailor Dashboard✂️
       </Typography>
 
       {error && (
-        <Sheet color="danger" variant="soft" sx={{ p: 2, borderRadius: 'sm' }}>
-          <Typography color="danger">{error}</Typography>
+        <Sheet color="danger" variant="soft" sx={{ p: 3, borderRadius: 'md' }}>
+          <Typography color="danger" fontSize="1.2rem">{error}</Typography>
         </Sheet>
       )}
 
-      <Box sx={{ display: 'flex', gap: 2 }}>
-        <Sheet variant="outlined" sx={{ flex: 1, borderRadius: 'sm', p: 2 }}>
-          <Typography level="h4" sx={{ mb: 2 }}>ASSIGNED ITEMS</Typography>
+      <Box sx={{ display: 'flex', gap: 4 }}>
+        <Sheet variant="outlined" sx={{ flex: 1, borderRadius: 'md', p: 4 }}>
+          <Typography level="h3" sx={{ mb: 3, fontSize: '2.2rem' }}>ASSIGNED ITEMS</Typography>
           
           {items.length === 0 ? (
-            <Typography level="body1">No items assigned.</Typography>
+            <Typography level="body1" fontSize="1.2rem">No items assigned.</Typography>
           ) : (
             <List>
               {items.map((item, index) => (
@@ -157,17 +157,19 @@ const TailorDashboard = () => {
                     sx={{
                       cursor: 'pointer',
                       '&:hover': { bgcolor: 'background.level1' },
-                      border: '1px solid', // Add a border around each item
-                      borderColor: 'divider', // Use a predefined color for the border (you can change it)
-                      borderRadius: 'sm', // Optional: add rounded corners
-                      padding: 2, // Optional: add some padding inside the item
+                      border: '2px solid',
+                      borderColor: 'divider',
+                      borderRadius: 'md',
+                      padding: 3,
+                      mb: 2
                       }}
                     onClick={() => handleItemClick(item)}
                   >
-                    <Stack spacing={1} sx={{ width: '100%' }}>
-                      <Typography level="h6">Item ID: {item.itemId}</Typography>
-                      <Typography level="body2">Order ID: {item.orderId}</Typography>
-                      <Typography level="body2">Status:&nbsp;
+
+                    <Stack spacing={2} sx={{ width: '100%' }}>
+                      <Typography level="h5" fontSize="1.5rem">Item ID: {item.itemId}</Typography>
+                      <Typography level="body1" fontSize="1.2rem">Order ID: {item.orderId}</Typography>
+                      <Typography level="body1" fontSize="1.2rem">Status:&nbsp;
                         <span
                           style={{
                             fontWeight: 'bold',
@@ -177,10 +179,10 @@ const TailorDashboard = () => {
                            {item.itemStatus}
                         </span>
                        </Typography>
-                      <Typography level="body2">Category: {getProductCategory(item)}</Typography>
+                      <Typography level="body1" fontSize="1.2rem">Category: {getProductCategory(item)}</Typography>
                     </Stack>
                   </ListItem>
-                  {index < items.length - 1 && <ListDivider />}
+                  {index < items.length - 1 }
                 </React.Fragment>
               ))}
             </List>
@@ -188,22 +190,22 @@ const TailorDashboard = () => {
         </Sheet>
 
         {selectedItem && (
-          <Card variant="outlined" sx={{ flex: 1, maxWidth: 400 }}>
+          <Card variant="outlined" sx={{ flex: 1, maxWidth: 600 }}>
             <CardContent>
-              <Typography level="h4" sx={{ mb: 2 }}>ITEM DETAILS</Typography>
-              <Stack spacing={2}>
+              <Typography level="h3" sx={{ mb: 3, fontSize: '2.2rem' }}>ITEM DETAILS</Typography>
+              <Stack spacing={3}>
                 <Box>
-                  <Typography level="body2" sx={{ color: 'text.secondary' }}>
+                  <Typography level="body1" sx={{ color: 'text.secondary', fontSize: '1.2rem' }}>
                     <span style={{ fontWeight: 'bold' }}>Product Category:</span> {getProductCategory(selectedItem)}
                   </Typography>
                 </Box>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 3 }}>
                   <Box sx={{ flex: 1 }}>
-                    <Typography level="body2" sx={{ color: 'text.secondary', fontWeight: 'bold' }}>Status</Typography>
+                    <Typography level="body1" sx={{ color: 'text.secondary', fontWeight: 'bold', fontSize: '1.2rem' }}>Status</Typography>
                     <Select
                       value={selectedStatus}
                       onChange={(_, value) => setSelectedStatus(value)}
-                      sx={{ minWidth: 120 }}
+                      sx={{ minWidth: 200, fontSize: '1.2rem' }}
                     >
                       <Option value="in_progress">In Progress</Option>
                       <Option value="finished">Finished</Option>
@@ -212,27 +214,27 @@ const TailorDashboard = () => {
 
                   <Button 
                     onClick={handleStatusUpdate}
-                    sx={{ mt: 2 }}
+                    sx={{ mt: 2, fontSize: '1.2rem', p: 2 }}
                     disabled={selectedItem.itemId !== items[0]?.itemId}
                   >
                     Update Status
                   </Button>
                 </Box>
                 <Box>
-                  <Typography level="body2" sx={{ color: 'text.secondary', fontWeight: 'bold' }}> Customer Measurements</Typography>
+                  <Typography level="body1" sx={{ color: 'text.secondary', fontWeight: 'bold', fontSize: '1.4rem', mb: 2 }}> Customer Measurements</Typography>
                   {measurements ? (
-                    <>
-                      <Typography>Neck Size: {measurements.neckSize || 'Not available'}</Typography>
-                      <Typography>Chest Size: {measurements.chestSize || 'Not available'}</Typography>
-                      <Typography>Shoulder Size: {measurements.shoulderLength || 'Not available'}</Typography>
-                      <Typography>Sleeve Length: {measurements.sleeveLength || 'Not available'}</Typography>
-                      <Typography>Jacket Length: {measurements.jacketLength || 'Not available'}</Typography>
-                      <Typography>Waist Size: {measurements.waistSize || 'Not available'}</Typography>
-                      <Typography>Hip Size: {measurements.hipSize || 'Not available'}</Typography>
-                      <Typography>Pant Length: {measurements.pantLength || 'Not available'}</Typography>
-                    </>
+                    <Stack spacing={1.5}>
+                      <Typography fontSize="1.2rem">Neck Size: {measurements.neckSize || 'Not available'}</Typography>
+                      <Typography fontSize="1.2rem">Chest Size: {measurements.chestSize || 'Not available'}</Typography>
+                      <Typography fontSize="1.2rem">Shoulder Size: {measurements.shoulderLength || 'Not available'}</Typography>
+                      <Typography fontSize="1.2rem">Sleeve Length: {measurements.sleeveLength || 'Not available'}</Typography>
+                      <Typography fontSize="1.2rem">Jacket Length: {measurements.jacketLength || 'Not available'}</Typography>
+                      <Typography fontSize="1.2rem">Waist Size: {measurements.waistSize || 'Not available'}</Typography>
+                      <Typography fontSize="1.2rem">Hip Size: {measurements.hipSize || 'Not available'}</Typography>
+                      <Typography fontSize="1.2rem">Pant Length: {measurements.pantLength || 'Not available'}</Typography>
+                    </Stack>
                   ) : (
-                    'Not available'
+                    <Typography fontSize="1.2rem">Not available</Typography>
                   )}
                 </Box>
               </Stack>

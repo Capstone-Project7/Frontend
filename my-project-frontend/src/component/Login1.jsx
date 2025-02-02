@@ -96,15 +96,23 @@ const Login1 = () => {
         >
             <Box
                 sx={{
-                    width: 400,
-                    p: 4,
+                    width: 600, // Increased from 400
+                    p: 6, // Increased padding from 4
                     borderRadius: 'lg',
-                    boxShadow: 2,
+                    boxShadow: 3, // Increased shadow
                     backgroundColor: 'white',
-                    opacity: 0.8
+                    opacity: 0.9 // Slightly increased opacity
                 }}
             >
-                <Typography level="h2" align="center" sx={{ mb: 2, fontFamily: 'Rock Salt, cursive' }}>
+                <Typography 
+                    level="h2" 
+                    align="center" 
+                    sx={{ 
+                        mb: 3, // Increased margin
+                        fontFamily: 'Rock Salt, cursive',
+                        fontSize: '2.5rem' // Increased font size
+                    }}
+                >
                     Tailor Management Portal
                 </Typography>
 
@@ -113,12 +121,13 @@ const Login1 = () => {
                         name="userType"
                         value={formData.userType}
                         onChange={handleChange}
-                        defaultValue="TAILOR"  // Default selection is Tailor
+                        defaultValue="TAILOR"
                         overlay
                         sx={{
                             flexDirection: 'row',
-                            justifyContent: 'center', // to align content
-                            gap: 2,
+                            justifyContent: 'center',
+                            gap: 4, // Increased gap
+                            mb: 3, // Added margin bottom
                             [`& .${radioClasses.checked}`]: {
                                 [`& .${radioClasses.action}`]: {
                                     inset: -1,
@@ -151,24 +160,24 @@ const Login1 = () => {
                                     alignItems: 'center',
                                     justifyContent: 'center',
                                     gap: 2,
-                                    p: 2,
-                                    minWidth: 100,
+                                    p: 3, // Increased padding
+                                    minWidth: 150, // Increased width
                                 }}
                             >
-                                <Radio id={value} value={value} checkedIcon={<CheckCircleRoundedIcon />} />
-                                <Avatar variant="soft" size="sm" />
-                                <FormLabel htmlFor={value}>{value}</FormLabel>
+                                <Radio id={value} value={value} checkedIcon={<CheckCircleRoundedIcon sx={{ fontSize: '1.5rem' }} />} />
+                                <Avatar variant="soft" size="lg" /> {/* Increased avatar size */}
+                                <FormLabel htmlFor={value} sx={{ fontSize: '1.2rem' }}>{value}</FormLabel>
                             </Sheet>
                         ))}
                     </RadioGroup>
 
                     {error && (
-                        <Typography color="danger" sx={{ mt: 2, textAlign: 'center' }}>
+                        <Typography color="danger" sx={{ mt: 2, textAlign: 'center', fontSize: '1.1rem' }}>
                             {error}
                         </Typography>
                     )}
 
-                    <Box sx={{ mb: 2, mt: 2 }}>
+                    <Box sx={{ mb: 3, mt: 3 }}>
                         <Input
                             name="username"
                             value={formData.username}
@@ -176,10 +185,11 @@ const Login1 = () => {
                             placeholder="Enter your username"
                             required
                             fullWidth
+                            size="lg"
                         />
                     </Box>
 
-                    <Box sx={{ mb: 3 }}>
+                    <Box sx={{ mb: 4 }}>
                         <Input
                             type="password"
                             name="password"
@@ -188,15 +198,17 @@ const Login1 = () => {
                             placeholder="Enter your password"
                             required
                             fullWidth
+                            size="lg"
                         />
                     </Box>
 
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 3 }}>
                         <Button
                             type="submit"
                             variant="solid"
                             color="primary"
-                            sx={{ flexGrow: 1 }}
+                            size="lg"
+                            sx={{ flexGrow: 1, fontSize: '1.1rem', py: 1.5 }}
                         >
                             Login
                         </Button>
@@ -205,7 +217,8 @@ const Login1 = () => {
                             variant="outlined"
                             color="neutral"
                             onClick={handleClear}
-                            sx={{ flexGrow: 1, ml: 2 }}
+                            size="lg"
+                            sx={{ flexGrow: 1, ml: 3, fontSize: '1.1rem', py: 1.5 }}
                         >
                             Clear
                         </Button>
@@ -217,7 +230,8 @@ const Login1 = () => {
                             variant="outlined"
                             color="primary"
                             onClick={handleRegister}
-                            sx={{ flexGrow: 2 }}
+                            size="lg"
+                            sx={{ flexGrow: 2, fontSize: '1.1rem', py: 1.5 }}
                         >
                             Register as Tailor
                         </Button>

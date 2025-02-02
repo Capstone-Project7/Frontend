@@ -39,19 +39,19 @@ const ExistingCustomerPage = () => {
   return (
     <Sheet
       sx={{
-        maxWidth: 800,
+        maxWidth: 1200, // Increased from 800
         mx: 'auto',
-        my: 4,
-        px: 3,
-        py: 4,
+        my: 8, // Increased from 4
+        px: 6, // Increased from 3
+        py: 8, // Increased from 4
         display: 'flex',
         flexDirection: 'column',
-        gap: 2,
-        borderRadius: 'sm',
-        boxShadow: 'md',
+        gap: 4, // Increased from 2
+        borderRadius: 'md', // Changed from 'sm'
+        boxShadow: 'lg', // Changed from 'md'
       }}
     >
-      <Typography level="h2" textAlign="center">
+      <Typography level="h1" textAlign="center" sx={{ fontSize: '3rem', mb: 4 }}>
         Enter Customer Mobile Number
       </Typography>
 
@@ -60,7 +60,7 @@ const ExistingCustomerPage = () => {
         onSubmit={handleSearchCustomer}
         sx={{
           display: 'flex',
-          gap: 2,
+          gap: 4, // Increased from 2
           alignItems: 'center',
           justifyContent: 'center',
         }}
@@ -70,13 +70,31 @@ const ExistingCustomerPage = () => {
           value={mobileNumber}
           onChange={(e) => setMobileNumber(e.target.value)}
           required
-          sx={{ width: '300px' }}
+          sx={{ 
+            width: '400px', // Increased from 300px
+            fontSize: '1.2rem',
+            '--Input-minHeight': '3rem' 
+          }}
         />
-        <Button type="submit">Search</Button>
+        <Button 
+          type="submit"
+          size="lg"
+          sx={{ 
+            fontSize: '1.2rem',
+            px: 4,
+            py: 1
+          }}
+        >
+          Search
+        </Button>
       </Box>
 
       {errorMessage && (
-        <Typography color="danger" textAlign="center">
+        <Typography 
+          color="danger" 
+          textAlign="center"
+          sx={{ fontSize: '1.2rem' }}
+        >
           {errorMessage}
         </Typography>
       )}
@@ -85,29 +103,29 @@ const ExistingCustomerPage = () => {
         <Card
           variant="outlined"
           sx={{
-            mt: 2,
-            p: 2,
+            mt: 4, // Increased from 2
+            p: 4, // Increased from 2
           }}
         >
-          <Typography level="h3" mb={2}>
+          <Typography level="h2" mb={4} sx={{ fontSize: '2.5rem' }}>
             Customer Details
           </Typography>
           
-          <Stack spacing={1} mb={3}>
-            <Typography><strong>Name:</strong> {customerData.customerName}</Typography>
-            <Typography><strong>ID:</strong> {customerData.customerId}</Typography>
-            <Typography><strong>Phone:</strong> {customerData.phoneNumber}</Typography>
-            <Typography><strong>Email:</strong> {customerData.email}</Typography>
-            <Typography><strong>Status:</strong> {customerData.isActive ? 'Active' : 'Inactive'}</Typography>
+          <Stack spacing={2} mb={4}>
+            <Typography sx={{ fontSize: '1.4rem' }}><strong>Name:</strong> {customerData.customerName}</Typography>
+            <Typography sx={{ fontSize: '1.4rem' }}><strong>ID:</strong> {customerData.customerId}</Typography>
+            <Typography sx={{ fontSize: '1.4rem' }}><strong>Phone:</strong> {customerData.phoneNumber}</Typography>
+            <Typography sx={{ fontSize: '1.4rem' }}><strong>Email:</strong> {customerData.email}</Typography>
+            <Typography sx={{ fontSize: '1.4rem' }}><strong>Status:</strong> {customerData.isActive ? 'Active' : 'Inactive'}</Typography>
           </Stack>
 
-          <Divider />
+          <Divider sx={{ my: 4 }} />
 
           <Box
             sx={{
               display: 'flex',
-              gap: 2,
-              mt: 2,
+              gap: 4,
+              mt: 4,
               justifyContent: 'space-between',
             }}
           >
@@ -115,7 +133,11 @@ const ExistingCustomerPage = () => {
               variant="solid"
               color="primary"
               onClick={handleNavigateToMeasurementsForm}
-              sx={{ flex: 1 }}
+              sx={{ 
+                flex: 1,
+                fontSize: '1.3rem',
+                py: 2
+              }}
             >
               Update Measurements
             </Button>
@@ -123,7 +145,11 @@ const ExistingCustomerPage = () => {
               variant="solid"
               color="primary"
               onClick={() => navigate('/place-order', { state: { customerId: customerData.customerId } })}
-              sx={{ flex: 1 }}
+              sx={{ 
+                flex: 1,
+                fontSize: '1.3rem',
+                py: 2
+              }}
             >
               Place Order
             </Button>

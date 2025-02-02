@@ -30,20 +30,20 @@ const NewCustomerPage = () => {
   };
 
   return (
-    <Container maxWidth="sm" sx={{ backgroundColor: '#f0f0f0', minHeight: '100vh' }}> 
+    <Container maxWidth="md" sx={{ minHeight: '100vh', display: 'flex', alignItems: 'center' }}> 
       <Box
         sx={{
-          marginTop: 8,
+          width: '100%',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          backgroundColor: 'white',
-          padding: 4, 
-          borderRadius: 2, 
+          backgroundColor: 'rgba(255, 255, 255, 0.9)',
+          padding: 6,
+          borderRadius: 3,
           boxShadow: 3,
         }}
       >
-        <Typography level="h1" align="center" sx={{ mb: 3, fontFamily: 'Rock Salt, cursive', fontSize: '1.75rem' }}>
+        <Typography level="h1" align="center" sx={{ mb: 4, fontFamily: 'Rock Salt, cursive', fontSize: '2.5rem' }}>
           Customer Details
         </Typography>
 
@@ -58,7 +58,13 @@ const NewCustomerPage = () => {
             value={customerName}
             onChange={(e) => setCustomerName(e.target.value)}
             autoFocus
-            sx={{ mb: 3 }}
+            sx={{ mb: 4 }}
+            InputProps={{
+              style: { fontSize: '1.2rem' }
+            }}
+            InputLabelProps={{
+              style: { fontSize: '1.2rem' }
+            }}
           />
 
           <TextField
@@ -70,7 +76,13 @@ const NewCustomerPage = () => {
             name="phoneNumber"
             value={phoneNumber}
             onChange={(e) => setPhoneNumber(e.target.value)}
-            sx={{ mb: 3 }}
+            sx={{ mb: 4 }}
+            InputProps={{
+              style: { fontSize: '1.2rem' }
+            }}
+            InputLabelProps={{
+              style: { fontSize: '1.2rem' }
+            }}
           />
 
           <TextField
@@ -83,15 +95,25 @@ const NewCustomerPage = () => {
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            sx={{ mb: 3 }}
+            sx={{ mb: 4 }}
+            InputProps={{
+              style: { fontSize: '1.2rem' }
+            }}
+            InputLabelProps={{
+              style: { fontSize: '1.2rem' }
+            }}
           />
 
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 4 }}>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 5 }}>
             <Button
               variant="contained"
               color="primary"
-              onClick={() => navigate(`/measurements-form`, {state: {customerId: customerDetails.customerId}})} // Passing customerId to the MeasurementForm
-              sx={{ width: '48%' }}
+              onClick={() => navigate(`/measurements-form`, {state: {customerId: customerDetails.customerId}})}
+              sx={{ 
+                width: '48%',
+                fontSize: '1.1rem',
+                padding: '12px 0'
+              }}
             >
               Add Measurements
             </Button>
@@ -99,7 +121,11 @@ const NewCustomerPage = () => {
               type="submit"
               variant="outlined"
               color="primary"
-              sx={{ width: '48%' }}
+              sx={{ 
+                width: '48%',
+                fontSize: '1.1rem',
+                padding: '12px 0'
+              }}
             >
               Save Customer
             </Button>

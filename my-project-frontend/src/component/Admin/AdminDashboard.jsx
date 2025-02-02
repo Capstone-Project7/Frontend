@@ -6,29 +6,29 @@ const AdminDashboard = () => {
   return (
     <Box
       sx={{
-        p: 4,
+        p: 8, // Increased padding
         minHeight: '100vh',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        flexDirection: 'column' // Added flexDirection column for the heading positioning
+        flexDirection: 'column'
       }}
     >
       {/* Heading */}
       <Typography 
         level="h1" 
         sx={{
-          mb: 4, 
-          fontSize: '2rem', 
-          fontWeight: 'bold', 
-          textAlign: 'center', 
+          mb: 6, // Increased margin
+          fontSize: '3.5rem', // Increased font size
+          fontWeight: 'bold',
+          textAlign: 'center',
           color: 'primary.main'
         }}
       >
         Welcome Stitching Strategist!
       </Typography>
 
-      <Grid container spacing={4} sx={{ maxWidth: 1200 }}>
+      <Grid container spacing={6} sx={{ maxWidth: 1600 }}> {/* Increased spacing and maxWidth */}
         {/* Manage Customers Card */}
         <Grid xs={12} md={4}>
           <Card
@@ -40,15 +40,16 @@ const AdminDashboard = () => {
               transition: 'transform 0.3s',
               '&:hover': {
                 transform: 'scale(1.05)'
-              }
+              },
+              p: 4 // Added padding
             }}
           >
             <CardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
               <div>
-                <Typography level="h2" sx={{ mb: 2 }}>
+                <Typography level="h2" sx={{ mb: 3, fontSize: '2.5rem' }}> {/* Increased font size and margin */}
                   Manage Customers
                 </Typography>
-                <Typography sx={{ mb: 3 }}>
+                <Typography sx={{ mb: 4, fontSize: '1.2rem' }}> {/* Increased font size and margin */}
                   View and manage customer details.
                 </Typography>
               </div>
@@ -57,6 +58,7 @@ const AdminDashboard = () => {
                 to="/customer-selection"
                 variant="solid"
                 size="lg"
+                sx={{ fontSize: '1.2rem', py: 2 }} // Increased button size
               >
                 Go to Customers
               </Button>
@@ -75,15 +77,16 @@ const AdminDashboard = () => {
               transition: 'transform 0.3s',
               '&:hover': {
                 transform: 'scale(1.05)'
-              }
+              },
+              p: 4 // Added padding
             }}
           >
             <CardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
               <div>
-                <Typography level="h2" sx={{ mb: 2 }}>
+                <Typography level="h2" sx={{ mb: 3, fontSize: '2.5rem' }}> {/* Increased font size and margin */}
                   Manage Tailors
                 </Typography>
-                <Typography sx={{ mb: 3 }}>
+                <Typography sx={{ mb: 4, fontSize: '1.2rem' }}> {/* Increased font size and margin */}
                   View and manage tailor details.
                 </Typography>
               </div>
@@ -92,6 +95,7 @@ const AdminDashboard = () => {
                 to="/tailors"
                 variant="solid"
                 size="lg"
+                sx={{ fontSize: '1.2rem', py: 2 }} // Increased button size
               >
                 Go to Tailors
               </Button>
@@ -110,15 +114,16 @@ const AdminDashboard = () => {
               transition: 'transform 0.3s',
               '&:hover': {
                 transform: 'scale(1.05)'
-              }
+              },
+              p: 4 // Added padding
             }}
           >
             <CardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
               <div>
-                <Typography level="h2" sx={{ mb: 2 }}>
+                <Typography level="h2" sx={{ mb: 3, fontSize: '2.5rem' }}> {/* Increased font size and margin */}
                   Manage Orders
                 </Typography>
-                <Typography sx={{ mb: 3 }}>
+                <Typography sx={{ mb: 4, fontSize: '1.2rem' }}> {/* Increased font size and margin */}
                   Create and manage orders.
                 </Typography>
               </div>
@@ -127,6 +132,7 @@ const AdminDashboard = () => {
                 to="/orders"
                 variant="solid"
                 size="lg"
+                sx={{ fontSize: '1.2rem', py: 2 }} // Increased button size
               >
                 Go to Orders
               </Button>
