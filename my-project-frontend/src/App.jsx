@@ -12,6 +12,7 @@ import MeasurementForm from './component/Measurement/MeasurementForm'
 import OrdersPage from './component/Order/OrdersPage'
 import PlaceOrder from './component/Order/PlaceOrder'
 import TailorsPage from './component/Tailor/TailorsPage'
+import './App.css'
 
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
   return (
     <>
       <h3>App Component</h3>
+
       <BrowserRouter>
         <Routes>
           {/* <Route exact path="/" element={<Landing />} /> */}

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from 'axios';
-import { Sheet, FormControl, FormLabel, Input, Button, Stack } from '@mui/joy';
+import { Sheet, FormControl, FormLabel, Input, Button, Stack, Typography } from '@mui/joy';
 // import './MeasurementForm.css';
 
 const MeasurementForm = ({ onSubmit, initialData = {} }) => {
@@ -97,20 +97,24 @@ const MeasurementForm = ({ onSubmit, initialData = {} }) => {
   return (
     <Sheet
       sx={{
-        maxWidth: 800,
+        maxWidth: 1200,
         mx: 'auto',
-        my: 4,
-        py: 3,
-        px: 2,
-        borderRadius: 'sm',
-        boxShadow: 'md',
+        my: 8,
+        py: 6,
+        px: 6,
+        borderRadius: 'md',
+        boxShadow: 'lg',
       }}
     >
+      <Typography level="h1" textAlign="center" sx={{ fontSize: '3rem', mb: 6 }}>
+        Customer Measurements
+      </Typography>
+
       <form onSubmit={handleSave}>
-        <Stack spacing={2}>
+        <Stack spacing={4}>
           {measurementFields.map((field) => (
             <FormControl key={field.id}>
-              <FormLabel>{field.label}</FormLabel>
+              <FormLabel sx={{ fontSize: '1.4rem', mb: 1 }}>{field.label}</FormLabel>
               <Input
                 type={field.id === 'customerId' ? 'text' : 'number'}
                 name={field.id}
@@ -118,16 +122,25 @@ const MeasurementForm = ({ onSubmit, initialData = {} }) => {
                 onChange={handleChange}
                 readOnly={field.readonly}
                 required
+                sx={{
+                  fontSize: '1.3rem',
+                  '--Input-minHeight': '3rem'
+                }}
               />
             </FormControl>
           ))}
 
-          <Stack direction="row" spacing={2} justifyContent="center" sx={{ mt: 4 }}>
+          <Stack direction="row" spacing={4} justifyContent="center" sx={{ mt: 6 }}>
             <Button
               type="submit"
               onClick={handleSave}
               variant="solid"
               color="primary"
+              sx={{ 
+                fontSize: '1.3rem',
+                px: 6,
+                py: 2
+              }}
             >
               Save Measurements
             </Button>
@@ -136,6 +149,11 @@ const MeasurementForm = ({ onSubmit, initialData = {} }) => {
               onClick={handlePlaceOrder}
               variant="outlined"
               color="neutral"
+              sx={{ 
+                fontSize: '1.3rem',
+                px: 6,
+                py: 2
+              }}
             >
               Place Order
             </Button>

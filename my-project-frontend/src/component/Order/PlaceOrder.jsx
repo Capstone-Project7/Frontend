@@ -164,87 +164,95 @@ const PlaceOrder = ({ onSubmit }) => {
       component="form" 
       onSubmit={handleSubmit}
       sx={{
-        maxWidth: 1200,
+        maxWidth: 1600, // Increased from 1200
         mx: 'auto',
-        p: 3,
+        p: 6, // Increased from 3
         display: 'flex',
         flexDirection: 'column',
-        gap: 2
+        gap: 4, // Increased from 2
+        backgroundColor: 'transparent'
       }}
     >
-      <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
+      <Typography level="h1" sx={{ mb: 4, fontSize: '3rem', textAlign: 'center' }}>
+        Place Order
+      </Typography>
+
+      <Box sx={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}> {/* Increased gap from 2 */}
         {/* Left Column - Customer Info */}
         <Sheet 
           variant="outlined"
           sx={{ 
             flex: 0.4,
-            minWidth: 250,
-            p: 2,
-            borderRadius: 'sm'
+            minWidth: 350, // Increased from 250
+            p: 4, // Increased from 2
+            borderRadius: 'md' // Changed from 'sm'
           }}
         >
-          <Typography level="h6" sx={{ mb: 2 }}>Order Information</Typography>
+          <Typography level="h3" sx={{ mb: 3, fontSize: '2rem' }}>Order Information</Typography>
           
-          <Stack spacing={1.5}>
-            <FormControl size="sm">
-              <FormLabel>Customer ID</FormLabel>
+          <Stack spacing={2.5}> {/* Increased from 1.5 */}
+            <FormControl size="lg"> {/* Changed from sm */}
+              <FormLabel sx={{ fontSize: '1.2rem' }}>Customer ID</FormLabel>
               <Input
                 value={formData.customerId}
                 readOnly
                 required
-                size="sm"
+                size="lg"
+                sx={{ fontSize: '1.2rem' }}
               />
             </FormControl>
 
-            <FormControl size="sm">
-              <FormLabel>Order Date</FormLabel>
+            <FormControl size="lg">
+              <FormLabel sx={{ fontSize: '1.2rem' }}>Order Date</FormLabel>
               <Input
                 value={formData.orderDate}
                 readOnly
                 required
-                size="sm"
+                size="lg"
+                sx={{ fontSize: '1.2rem' }}
               />
             </FormControl>
 
             {formData.items.length > 0 && (
               <Box>
-                <FormLabel sx={{ mb: 0.5 }}>Selected Items</FormLabel>
-                <Stack spacing={0.5}>
+                <FormLabel sx={{ mb: 1, fontSize: '1.2rem' }}>Selected Items</FormLabel>
+                <Stack spacing={1}>
                   {formData.items.map((item, index) => (
                     <Box 
                       key={index}
                       sx={{ 
                         display: 'flex',
                         alignItems: 'center',
-                        gap: 0.5,
+                        gap: 1,
                         backgroundColor: 'background.level1',
-                        p: 0.5,
-                        borderRadius: 'sm'
+                        p: 1.5,
+                        borderRadius: 'md',
+                        fontSize: '1.1rem'
                       }}
                     >
-                      <Typography level="body2" sx={{ flex: 1 }}>{item.name}</Typography>
+                      <Typography level="body1" sx={{ flex: 1, fontSize: '1.1rem' }}>{item.name}</Typography>
                       <IconButton 
-                        size="sm"
+                        size="md"
                         variant="plain"
                         onClick={() => handleDecreaseQuantity(index)}
                       >
-                        <RemoveIcon fontSize="small" />
+                        <RemoveIcon />
                       </IconButton>
-                      <Typography level="body2">{item.quantity}</Typography>
+                      <Typography level="body1" sx={{ fontSize: '1.1rem' }}>{item.quantity}</Typography>
                       <IconButton
-                        size="sm"
+                        size="md"
                         variant="plain"
                         onClick={() => handleIncreaseQuantity(index)}
                       >
-                        <AddIcon fontSize="small" />
+                        <AddIcon />
                       </IconButton>
                       <IconButton
-                        size="sm"
+                        size="md"
                         color="danger"
                         variant="plain"
                         onClick={() => handleRemoveItem(item.itemId)}
                       >
-                        <DeleteIcon fontSize="small" />
+                        <DeleteIcon />
                       </IconButton>
                     </Box>
                   ))}
@@ -259,20 +267,20 @@ const PlaceOrder = ({ onSubmit }) => {
           variant="outlined"
           sx={{ 
             flex: 0.6,
-            minWidth: 300,
-            p: 2,
-            borderRadius: 'sm'
+            minWidth: 400, // Increased from 300
+            p: 4, // Increased from 2
+            borderRadius: 'md'
           }}
         >
-          <Typography level="h6" sx={{ mb: 2 }}>Select Items & Payment</Typography>
+          <Typography level="h3" sx={{ mb: 3, fontSize: '2rem' }}>Select Items</Typography>
           
-          <Stack spacing={2}>
+          <Stack spacing={3}> {/* Increased from 2 */}
             <Box>
-              <FormLabel sx={{ mb: 1 }}>Available Items</FormLabel>
+              <FormLabel sx={{ mb: 2, fontSize: '1.2rem' }}>Available Items</FormLabel>
               <Box sx={{ 
                 display: 'grid', 
-                gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))',
-                gap: 1.5 
+                gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', // Increased from 150px
+                gap: 2 
               }}>
                 {Array.isArray(catalogueItems) && catalogueItems.map((item) => (
                   <Box 
@@ -281,32 +289,33 @@ const PlaceOrder = ({ onSubmit }) => {
                       textAlign: 'center',
                       border: '1px solid',
                       borderColor: 'divider',
-                      borderRadius: 'sm',
-                      p: 1,
+                      borderRadius: 'md',
+                      p: 2,
                       transition: 'transform 0.2s',
                       '&:hover': {
                         transform: 'translateY(-2px)',
-                        boxShadow: 1
+                        boxShadow: 2
                       }
                     }}
                   >
                     <Box 
                       sx={{
-                        height: 100,
+                        height: 150, // Increased from 100
                         backgroundImage: `url(${item.productImageUrl})`,
                         backgroundSize: 'cover',
                         backgroundPosition: 'center',
-                        borderRadius: 'xs',
-                        mb: 0.5
+                        borderRadius: 'sm',
+                        mb: 1
                       }}
                     />
-                    <Typography level="body2" fontWeight="md">{item.productCategory}</Typography>
-                    <Typography level="body2" sx={{ color: 'primary.main', mb: 0.5 }}>₹{item.productPrice}</Typography>
+                    <Typography level="h6" sx={{ fontSize: '1.2rem' }}>{item.productCategory}</Typography>
+                    <Typography level="h6" sx={{ color: 'primary.main', mb: 1, fontSize: '1.2rem' }}>₹{item.productPrice}</Typography>
                     <Button
-                      size="sm"
+                      size="lg"
                       variant="soft"
                       fullWidth
                       onClick={() => handleAddItem(item.catalogueId, item.productWorkload)}
+                      sx={{ fontSize: '1.1rem' }}
                     >
                       Add
                     </Button>
@@ -315,31 +324,41 @@ const PlaceOrder = ({ onSubmit }) => {
               </Box>
             </Box>
 
-            <FormControl size="sm">
-              <FormLabel>Due Date</FormLabel>
+            <FormControl size="lg">
+              <FormLabel sx={{ fontSize: '1.2rem' }}>Estimated Delivery Date</FormLabel>
               <Input
                 type="date"
                 value={formData.deliveryDate}
                 readOnly
-                size="sm"
+                size="lg"
+                sx={{ fontSize: '1.2rem' }}
               />
             </FormControl>
 
             <Box sx={{ 
               display: 'flex', 
               flexDirection: 'column',
-              gap: 2,
-              mt: 2,
-              pt: 2,
-              borderTop: '1px solid',
+              gap: 3,
+              mt: 3,
+              pt: 3,
+              borderTop: '2px solid', // Made border thicker
               borderColor: 'divider'
             }}>
               <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <Typography level="h6">Total Price:</Typography>
-                <Typography level="h6" sx={{ color: 'primary.main' }}>₹{formData.totalPrice}</Typography>
+                <Typography level="h4" sx={{ fontSize: '1.8rem' }}>Total Price:</Typography>
+                <Typography level="h4" sx={{ color: 'primary.main', fontSize: '1.8rem' }}>₹{formData.totalPrice}</Typography>
               </Box>
 
-              <Button type="submit" color="success" fullWidth>
+              <Button 
+                type="submit" 
+                color="success" 
+                fullWidth
+                size="lg"
+                sx={{ 
+                  fontSize: '1.3rem',
+                  py: 1.5
+                }}
+              >
                 Place Order
               </Button>
             </Box>
